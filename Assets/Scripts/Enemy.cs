@@ -45,6 +45,7 @@ public class Enemy : MonoBehaviour
     public void OnDeath()
     {
         Debug.Log("Enemigo muerto");
+        GameManager.instance.AddEnemie();
         Destroy(gameObject);
     }
 
