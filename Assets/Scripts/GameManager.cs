@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
 
     public static event Action<int> OnEnemiesChanged;
     public static event Action<int> OnLivesChanged;
+    public static event Action OnGameOver;
 
     void Awake()
     {
