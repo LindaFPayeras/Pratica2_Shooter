@@ -3,7 +3,22 @@ guid: 822107633f0d8394b8dd18edbcbb17e1
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: fire body
+    second: {fileID: 2100000, guid: 9909bdf1a2d71294c95d5d3dace9b5e6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: fire corn
+    second: {fileID: 2100000, guid: 9909bdf1a2d71294c95d5d3dace9b5e6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: outline
+    second: {fileID: 2100000, guid: 9909bdf1a2d71294c95d5d3dace9b5e6, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

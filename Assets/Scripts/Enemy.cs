@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Video;
 
 public class Enemy : MonoBehaviour
 {
@@ -13,6 +12,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private int damage = 10;
     [SerializeField] private float attackCooldown = 1f;
     private float lastAttackTime;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected virtual void Start()
     {
@@ -28,13 +28,12 @@ public class Enemy : MonoBehaviour
 
     protected virtual void UpdateBehaviour()
     {
-        // Si estás o no dentro del rango de deteccion
+        // Si estas o no dentro del rango de deteccion
         float distance = Vector3.Distance(transform.position, player.position);
 
         if (distance <= detectionRange)
         {
             agent.SetDestination(player.position);
-            
         }
         else
         {
@@ -49,22 +48,42 @@ public class Enemy : MonoBehaviour
         Destroy(gameObject);
     }
 
-    protected virtual void OnTriggerStay(Collider other) {
-        if (other.CompareTag("Player"))
-        {
-            if (Time.time >= lastAttackTime + attackCooldown)
-            {
-                Health playerHealth = other.GetComponent<Health>();
-
-                if (playerHealth != null)
-                {
-                    playerHealth.TakeDamage(damage);
-                    Debug.Log("Daño al jugador");
-                }
-
-                lastAttackTime = Time.time;
-            }
-        }        
+    protected virtual void OnTriggerStay(Collider other)
+    {
+        TryDamagePlayer(other.gameObject);
     }
-    
+
+    protected virtual void OnCollisionStay(Collision collision)
+    {
+        TryDamagePlayer(collision.gameObject);
+    }
+
+    private void TryDamagePlayer(GameObject other)
+    {
+        bool isPlayer = other.CompareTag("Player") || other.GetComponentInParent<PlayerControllerFPS>() != null;
+
+        if (!isPlayer || Time.time < lastAttackTime + attackCooldown)
+        {
+            return;
+        }
+
+        Health playerHealth = other.GetComponentInParent<Health>();
+
+        if (playerHealth == null)
+        {
+            playerHealth = other.GetComponentInChildren<Health>();
+        }
+
+        if (playerHealth != null)
+        {
+            playerHealth.TakeDamage(damage);
+            Debug.Log("Daño al jugador");
+        }
+        else
+        {
+            Debug.LogWarning("El " + other.name + " no tiene componente Health en este objeto, padre o hijos.");
+        }
+
+        lastAttackTime = Time.time;
+    }
 }

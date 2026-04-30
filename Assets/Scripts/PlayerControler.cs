@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+[RequireComponent(typeof(Health))]
 public class PlayerControllerFPS : MonoBehaviour
 {
     [SerializeField] private Transform cameraPivot;
@@ -12,6 +13,7 @@ public class PlayerControllerFPS : MonoBehaviour
     [SerializeField] private float minAngle = -80f;
     [SerializeField] private float maxAngle = 80f;
     [SerializeField] private Vector3 spawnPoint;
+    [SerializeField] private Health health;
 
     private float xRotation = 0f;
 
@@ -21,6 +23,12 @@ public class PlayerControllerFPS : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        health = GetComponent<Health>();
+
+        if (health == null)
+        {
+            health = gameObject.AddComponent<Health>();
+        }
     }
 
     void Start()
